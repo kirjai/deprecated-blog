@@ -11,7 +11,7 @@ email: kirilsladovs@gmail.com
 description: >
   Javascript, Angular, web performance articles
 baseurl: ""
-url: "http://localhost:4000"
+url: "http://kirjai.github.io"
 twitter_username: kirjai
 github_username:  kirjai
 paginate: 7
