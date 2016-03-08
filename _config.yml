@@ -1,0 +1,29 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+title: Kirjai Web Development blog
+email: kirilsladovs@gmail.com
+description: >
+  Javascript, Angular, web performance articles
+baseurl: ""
+url: "http://localhost:4000"
+twitter_username: kirjai
+github_username:  kirjai
+paginate: 7
+paginate_path: "/:num"
+permalink: /:year/:month/:title
+
+# Build settings
+sass:
+  sass_dir: _sass
+  compressed: true
+include: ['_pages']
+kramdown:
+  input: GFM
+
+gems: [jekyll-paginate]
