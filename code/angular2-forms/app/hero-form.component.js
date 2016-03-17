@@ -25,6 +25,9 @@ System.register(['angular2/core', 'angular2/common'], function(exports_1, contex
                 function HeroForm(builder) {
                     this.builder = builder;
                     this.submitted = false;
+                }
+                ;
+                HeroForm.prototype.ngOnInit = function () {
                     this.passwordValidator = this.passwordValidator.bind(this);
                     this.scheduleForm = this.builder.group({
                         email: ['', common_1.Validators.required],
@@ -32,28 +35,20 @@ System.register(['angular2/core', 'angular2/common'], function(exports_1, contex
                         password: ['', this.passwordValidator]
                     });
                     this.register = this.scheduleForm.controls['register'];
-                }
-                ;
-                HeroForm.prototype.ngOnInit = function () {
                 };
                 HeroForm.prototype.passwordValidator = function (field) {
                     var isEmpty = field.value.length > 0 ? false : true;
+                    console.log(typeof this);
+                    for (var key in this) {
+                        console.log(key);
+                    }
+                    console.log(this.passwordValidator);
                     console.log(this);
-                    console.log(this.register);
-                    console.log(this);
-                    // if(register.value){
+                    // if(this.register.value){
                     //   return !isEmpty ? null : {
                     //     invalidPassword: true
                     //   }
                     // }
-                };
-                HeroForm.prototype.checkLength = function (field) {
-                    if (field.value.length <= 5) {
-                        return null;
-                    }
-                    else {
-                        return { length: false };
-                    }
                 };
                 HeroForm.prototype.onSubmit = function () {
                     this.submitted = true;

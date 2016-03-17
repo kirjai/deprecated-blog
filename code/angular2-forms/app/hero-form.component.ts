@@ -15,6 +15,9 @@ export class HeroForm implements OnInit {
   register: AbstractControl;
 
   constructor(public builder: FormBuilder) {
+  };
+
+  ngOnInit() {
     this.passwordValidator = this.passwordValidator.bind(this);
 
     this.scheduleForm = this.builder.group({
@@ -24,30 +27,22 @@ export class HeroForm implements OnInit {
     })
 
     this.register = this.scheduleForm.controls['register'];
-  };
-
-  ngOnInit() {
 
   }
 
   passwordValidator(field: Control){
     var isEmpty = field.value.length > 0 ? false : true;
+    console.log(typeof this);
+    for (var key in this){
+      console.log(key);
+    }
+    console.log(this.passwordValidator);
     console.log(this);
-    console.log(this.register);
-    console.log(this);
-    // if(register.value){
+    // if(this.register.value){
     //   return !isEmpty ? null : {
     //     invalidPassword: true
     //   }
     // }
-  }
-
-  checkLength(field: Control) {
-    if (field.value.length <= 5) {
-      return null;
-    } else {
-      return { length: false };
-    }
   }
 
   onSubmit() {
