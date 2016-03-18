@@ -1,0 +1,21 @@
+<form [ngFormModel]="emailForm" (ngSubmit)="onSubmit()" *ngIf="!submitted">
+  <h2>Scheduling Form</h2>
+  <div>
+    <label for="email">Email</label>
+    <input id="email" type="text" ngControl="email">
+    <div class="ngmessages" *ngIf="!emailForm.controls['email'].valid && emailForm.controls['email'].touched">
+      <div class="ngmessage" *ngIf="email.hasError('required')">Email is required</div>
+      <div class="ngmessage" *ngIf="email.hasError('length')">Email needs to be at least 5 characters long</div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="!emailForm.valid">Submit</button>
+  <pre>{{ diagnostic }}</pre>
+  <pre>{{ emailForm.valid }}</pre>
+
+</form>
+
+
+<div *ngIf="submitted">
+  <h3>Form successfully submitted!</h3>
+</div>
