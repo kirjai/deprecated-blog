@@ -3,14 +3,14 @@ layout: post
 title:  "Validation for Model-driven forms in Angular 2"
 date:   2016-03-17 22:17:00 +0000
 ---
-As you might know, there are two prominent ways of creating forms in Angular 2: Template-driven forms and Model-driven forms. **Template-driven** forms definitely have a stronger correlation to how forms are created in AngularJS 1.x, in that they mostly rely on you declaring your form logic in the HTML template. **Model-driven** forms however, are created from a configuration that you specify in your Component declaration.
+As you might know, there are two prominent ways of creating forms in Angular 2: **Template-driven** forms and **Model-driven forms**. **Template-driven** forms definitely have a stronger correlation to how forms are created in AngularJS 1.x, in that they mostly rely on you declaring your form logic in the HTML template. **Model-driven** forms however, are created from a configuration that you specify in your Component declaration.
 
-In this post we will be going over the Model-driven form definition, how to make use of validators as well as writing your own custom validators and providing user with good error messages upon validation.
+In this post we will be going over the Model-driven form definition, how to make use of validators as well as writing your own custom validators and providing users with good error messages upon validation.
 
 
 ### Set up
 
-First, let's create a simple component and its corresponding template.
+Firstly, let's create a simple component and its corresponding template.
 
 {% highlight javascript %}
 
@@ -39,13 +39,13 @@ First, let's create a simple component and its corresponding template.
 
 {% endhighlight %}
 
-A simple form that doesn't do anything yet. So next step is to write up our component and the template.
+This creates a very basic form that doesn't do anything yet. So the next step is to write up our component and the template.
 
 ### Enter the `FormBuilder`
 
-The `FormBuilder` is part of the `angular2/common` module, that we will be using to create our Model-driven form.
+The `FormBuilder` is part of the `angular2/common` module that we will be using to create our Model-driven form.
 
-In order to use the `FormBuilder`, we obviously need to import it into our component definition file first.
+In order to use the `FormBuilder`, we need to import it into our component definition file first.
 
 {% highlight javascript %}
   // email-form.component.ts
@@ -62,7 +62,7 @@ Next we need to actually inject the `FormBuilder` into our component. We do that
 
 {% endhighlight %}
 
-Now we can use the `FormBuilder` by referencing it by its the private variable name `builder`, inside our component. Great, so we can finally create our form configuration. Let me first demonstrate how it's done and I will describe it what actually happens in more detail after.
+Now we can use the `FormBuilder` by referencing it by its the private variable name `builder`, inside our component. Great! So we can now create our form configuration. Let me first provide an example, which I will explain in more detail afterwards.
 
 {% highlight javascript %}
 
@@ -75,7 +75,7 @@ Now we can use the `FormBuilder` by referencing it by its the private variable n
 
 {% endhighlight %}
 
-What we did is create a new property on our class `emailForm` and assigned a new `group` created by the builder. **However**, we assigned the group to a property we didn't define yet, so at the top of our `EmailForm` class we need to define the new `emailForm` property. One thing to note is that the name of the property `emailForm` can be anything, as with any variable, it is not mapped to anything yet at this point.
+We've created a new property on our class `emailForm` and assigned a new `group` created by the builder. **However**, we assigned the group to a property we haven't defined yet, so, at the top of our `EmailForm` class we need to define the new `emailForm` property. One thing to note is that the name of the property `emailForm` can be anything, as with any variable, it is not yet mapped to anything at this point.
 
 {% highlight javascript %}
 
@@ -92,9 +92,9 @@ The type of the `emailForm` property is `ControlGroup`, which quite literally is
 
 ### `Control` and `ngControl`
 
-`Control`, is an Angular class, and we can map instances of that class to form fields. Without `Control`s, we can't have validations and communication between the HTML form and the component class essentially (unless we use `ngModel`, of course).
+`Control` is an Angular class, and we can map instances of this class to form fields. Without `Control`s, we can't have validations, or essentially provide *any* communication between the HTML form and the component class (unless we use `ngModel`, of course).
 
-So since with model-driven forms we specify the form configuration upfront, we need to specify controls that the form will be mapped to. We need to do that inside the form configuration object which we are passing into the `this.builder.group()` inside our constructor.
+So since with model-driven forms we specify the form configuration upfront, we need to specify controls that the form will be mapped to. We need to do that inside the form configuration object which we are passing to the `this.builder.group()` function call inside our constructor.
 
 {% highlight javascript %}
 
@@ -109,7 +109,7 @@ So since with model-driven forms we specify the form configuration upfront, we n
 
 {% endhighlight %}
 
-As I mentioned in the beginning, we will only have one field in our form, so we have essentially passed one instance of `Control` titled `email` as part of our form configuration object.
+As I mentioned at the start of this post, we are creating a form with just one field, which is why we have only passed one instance of `Control` - titled `email` -  as part of our form configuration object.
 
 Along with the name for our `Control`, we pass an array, where the first value is a string, which is the default value of this new form field control. Since we don't want a default value, we are just passing in an empty string.
 
