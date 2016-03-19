@@ -3,7 +3,7 @@ layout: post
 title:  "Validation for Model-driven forms in Angular 2"
 date:   2016-03-17 22:17:00 +0000
 ---
-As you might know, there are two prominent ways of creating forms in Angular 2: Template-driven forms and Model-driven forms. **Template-driven** forms definitely have a stronger correlation to how forms are created in AngularJS 1.x, in that they mostly rely on you declaring your form logic in the HTML template. **Model-driven** forms however, are created from a configuration that you specify in your Component declaration.
+As you might know, there are two prominent ways of creating forms in Angular 2: Template-driven forms and Model-driven forms. **Template-driven** forms definitely have a stronger correlation to how forms are created in AngularJS 1.x, in that they mostly rely on you declaring your form logic in the HTML template. **Model-driven** forms however, are created from a configuration that you specify in your Component class.
 
 In this post we will be going over the Model-driven form definition, how to make use of validators as well as writing your own custom validators and providing user with good error messages upon validation.
 
@@ -45,7 +45,7 @@ A simple form that doesn't do anything yet. So next step is to write up our comp
 
 The `FormBuilder` is part of the `angular2/common` module, that we will be using to create our Model-driven form.
 
-In order to use the `FormBuilder`, we obviously need to import it into our component definition file first.
+In order to use the `FormBuilder`, we obviously need to import it into our component file first.
 
 {% highlight javascript %}
   // email-form.component.ts
@@ -75,7 +75,9 @@ Now we can use the `FormBuilder` by referencing it by its the private variable n
 
 {% endhighlight %}
 
-What we did is create a new property on our class `emailForm` and assigned a new `group` created by the builder. **However**, we assigned the group to a property we didn't define yet, so at the top of our `EmailForm` class we need to define the new `emailForm` property. One thing to note is that the name of the property `emailForm` can be anything, as with any variable, it is not mapped to anything yet at this point.
+What we did is create a new property on our class - `emailForm` and assigned a new `group` to it,  created by the builder. `FormBuilder` helps us by creating a `ControlGroup` object that will hold our form `Control`s (more on that later). We will specify individual `Control`s that correspond to our input fields by passing them into the this new `ControlGroup` we just created.
+
+**However**, we assigned the group to a property we didn't define yet, so at the top of our `EmailForm` class we need to define the new `emailForm` property. One thing to note is that the name of the property `emailForm` can be anything, as with any variable, it is not mapped to anything yet at this point.
 
 {% highlight javascript %}
 
@@ -88,13 +90,10 @@ What we did is create a new property on our class `emailForm` and assigned a new
 
 {% endhighlight %}
 
-The type of the `emailForm` property is `ControlGroup`, which quite literally is a group of `Control`s.
 
 ### `Control` and `ngControl`
 
-`Control`, is an Angular class, and we can map instances of that class to form fields. Without `Control`s, we can't have validations and communication between the HTML form and the component class essentially (unless we use `ngModel`, of course).
-
-So since with model-driven forms we specify the form configuration upfront, we need to specify controls that the form will be mapped to. We need to do that inside the form configuration object which we are passing into the `this.builder.group()` inside our constructor.
+`Control`, is an Angular class, and we can map instances of that class to form fields. Without `Control`s, we can't have validations or communication between the HTML form and the component class essentially (unless we use `ngModel`, of course).
 
 {% highlight javascript %}
 
@@ -109,9 +108,7 @@ So since with model-driven forms we specify the form configuration upfront, we n
 
 {% endhighlight %}
 
-As I mentioned in the beginning, we will only have one field in our form, so we have essentially passed one instance of `Control` titled `email` as part of our form configuration object.
-
-Along with the name for our `Control`, we pass an array, where the first value is a string, which is the default value of this new form field control. Since we don't want a default value, we are just passing in an empty string.
+What exactly happens here? Well, we are passing a `Control` object into our `emailForm`. As mentioned earlier, a `Control` corresponds to a form field, in our case we have an email input field, and here we are specifying its `Control` object. As with any object, it consists of key-value pairs, and here our new `Control` object has the key of `email` and value of an array with an empty string inside. A string inside the array is the default value for our form field. Since we don't want a default value, we are just passing in an empty string.
 
 That's great and all, but how can we map this to our HTML form in the template? There's only two things we need to do for that.
 
@@ -131,7 +128,7 @@ That's great and all, but how can we map this to our HTML form in the template? 
 
 We have added a new directive `ngFormModel` to our `form` element, and an `ngControl` to the email input field. The value we give to the `ngFormModel` corresponds to the name of our form control group, created by calling `builder.group`. And the value we give to `ngControl` is a `Control` instance that we have passed as part of our form configuration object.
 
-Now the form we specified in the component class is mapped to the HTML form. But how can we make sure that it actually is? We can display the value of the whole form control group in our template using the usual Angular syntax below our form.
+Now the form we specified in the component class is mapped to the HTML form. But how can we make sure that it actually is? We can display the value of the whole form control group in our template using the usual Angular syntax, below our form.
 
 {% highlight html %}
 
@@ -164,7 +161,7 @@ In order to make the email input field required, we need to add the 'required' v
 {% highlight javascript %}
 
   // email-form.component.ts
-
+  ...
   constructor(private builder: FormBuilder){
     this.emailForm = this.builder.group({
         email: ['', Validators.required]
@@ -199,7 +196,7 @@ This also shows you one way we can access specific `Control` objects that are pa
 On top of using Angular's built in validators, you are able to write your own custom validators as well. So for our example, let's write a simple useless validator that checks that the first letter typed into the input field is the letter `a`.
 > In reality, you would probably want to validate email input field with a regular expression or min-length, etc. But you would simply use the existing Angular validators for that, however we want to explore how to write our own validators.
 
-A custom validator is essentially just a function that returns `null` is you want the input value to pass validation, or anything else if you want the validation to fail. Let's declare that function, outside of our constructor.
+A custom validator is essentially just a function that returns `null` is you want the input value to pass validation, or anything else if you want the validation to fail. Let's declare that function next, outside of our constructor.
 
 {% highlight javascript %}
 
