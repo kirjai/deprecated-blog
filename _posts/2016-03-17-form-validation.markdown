@@ -1,4 +1,5 @@
 ---
+---
 layout: post
 title:  "Validation for Model-driven forms in Angular 2"
 date:   2016-03-17 22:17:00 +0000
@@ -110,7 +111,7 @@ So since with model-driven forms we specify the form configuration upfront, we n
 
 {% endhighlight %}
 
-What exactly happens here? Well, we are passing a `Control` object into our `emailForm`. As mentioned earlier, a `Control` corresponds to a form field, in our case we have an email input field, and here we are specifying its `Control` object. As with any object, it consists of key-value pairs, and here our new `Control` object has the key of `email` and value of an array with an empty string inside. A string inside the array is the default value for our form field. Since we don't want a default value, we are just passing in an empty string.
+What exactly happens here? Well, we are passing a `Control` object into our `emailForm`. As mentioned earlier, a `Control` corresponds to a form field. In our case we have an email input field, and here we are specifying its `Control` object. As with any object, it consists of key-value pairs, and here our new `Control` object has the key of `email` and value of an array. For now our array value contains just one element, an empty string. This first element in the array represents the default value for our field, and, since we don't want a default value, we are just passing in an empty string.
 
 That's great and all, but how can we map this to our HTML form in the template? There's only two things we need to do for that.
 
@@ -130,7 +131,7 @@ That's great and all, but how can we map this to our HTML form in the template? 
 
 We have added a new directive `ngFormModel` to our `form` element, and an `ngControl` to the email input field. The value we give to the `ngFormModel` corresponds to the name of our form control group, created by calling `builder.group`. And the value we give to `ngControl` is a `Control` instance that we have passed as part of our form configuration object.
 
-Now the form we specified in the component class is mapped to the HTML form. But how can we make sure that it actually is? We can display the value of the whole form control group in our template using the usual Angular syntax, below our form.
+Now the form we specified in the component class should be mapped to the HTML form, but how can we make sure that it actually is? We can display the value of the whole form control group in our template using the usual Angular syntax, below our form.
 
 {% highlight html %}
 
@@ -144,7 +145,7 @@ Try typing into the text field inside your form and see the value of `email` cha
 
 ### Validation
 
-Now it's time to get creative with our form and make it more useful. Our goal is to make sure that the user has typed something into the input field before submitting the form, i.e. making the field required.
+Now it's time to get creative with our form and make it more useful. Our goal is to make sure that the user has typed *something* into the input field before submitting the form, i.e. making the field required.
 
 We can use the usual standard HTML validators, like `required`, `minlength` etc. inside our HTML, but let's add validators to the form inside our form configuration object.
 
@@ -158,7 +159,7 @@ We will want to use `Validators`, a class we need to import from `angular2/commo
   ...
 {% endhighlight %}
 
-In order to make the email input field required, we need to add the 'required' validator to where we are defining a new `Control` - `email`.
+In order to make the email input field required, we need to add the 'required' validator to where we are defining a new `Control` - `email`.  The validator we want applied to a control is provided as the second element inside our Control array value:
 
 {% highlight javascript %}
 
@@ -182,7 +183,9 @@ As you can see, all we need to do to add a validator for a form control is pass 
 
 > - `Validators.pattern(string)`
 
-There is nothing we need to modify inside our template in order to make validation work. So in order to preview that our validation is actually working, we may want to change the binding inside the `<pre>` tags in our template, to the following.
+I'll show you how to use `Validators.compose()` a little later on in this post.
+
+We don't need to modify anything inside our template in order to make the validation work. To confirm that our validation is actually working, we can just change the binding inside the `<pre>` tags in our template, to the following.
 
 {% highlight html %}
 
@@ -191,14 +194,15 @@ There is nothing we need to modify inside our template in order to make validati
 
 {% endhighlight %}
 
-This also shows you one way we can access specific `Control` objects that are part of your form, within the template. However, we will explore a better and less verbose way a little bit later.
+This also demonstrates one way we can access specific `Control` objects that are part of our form, from within the template. However we will explore a better and less verbose method a little bit later.
 
 ### Custom Validators
 
 <!-- On top of using Angular's built in validators, you are able to write your own custom validators as well. So for our example, let's write a simple useless validator that checks that the first letter typed into the input field is the letter `a`. -->
-> In reality, you would probably want to validate email input field with a regular expression or min-length, etc. But you would simply use the existing Angular validators for that, however we want to explore how to write our own validators.
 
-A custom validator is essentially just a function that returns `null` is you want the input value to pass validation, or anything else if you want the validation to fail. Let's declare that function next, outside of our constructor.
+In a real world use case, you would probably want to validate an email input field with a regular expression or min-length, etc. You could simply use the existing Angular validators for that, however we want to explore how to write *our own* validators
+
+A custom validator is essentially just a function that returns `null` if you want the input value to pass validation, or anything else if you want the validation to fail. Let's declare that function next, outside of our constructor.
 
 {% highlight javascript %}
 
@@ -211,7 +215,11 @@ A custom validator is essentially just a function that returns `null` is you wan
 
 {% endhighlight %}
 
-As you can see, a validator function receives an instance of a form control that it gets applied to. We use that to access the current value of that control field and checking if it's first letter is `a`. If it is - we are returning `null`, however if it isn't we are returning an error object. Reason for returning an error object for an invalid field is so that we can provide the user with descriptive feedback as to why validation failed. We will explore just how to do that in the next section.
+As you can see, the validator function receives an instance of a form control that it going to apply validation to. We can use that instance to access the current value of the control field.
+
+In our example we inspect the current value of the control field and verify it's first letter. If the first letter is `a` then we return `null`, indicating that it passed validation.  However if the first letter is *not* an `a` then we return an error object, which indicates that the validation failed.
+
+The reason for returning an error object for an invalid field is so that we can provide the user with descriptive feedback as to why validation failed. We will explore just how to do that in the next section.
 
 Now that we have our custom validation function, let's apply that to our email control.
 
@@ -230,19 +238,19 @@ Now that we have our custom validation function, let's apply that to our email c
 
 {% endhighlight %}
 
-Instead of passing just `Validators.required` inside our array for the email control, we are now passing `Validators.compose()` function, which takes in an array of any validators we one to use. In this case, we want to use both the `Validators.required` built-in validator, as well as our custom `this.checkIfA` validator.
+Instead of passing just `Validators.required` inside our array for the email control (as the second element to our array), we are now passing the return value of a `Validators.compose()` function call, which takes an array of any validators we one to use. In this case, we want to use both the `Validators.required` built-in validator, as well as our custom `this.checkIfA` validator.
 
-Whatever we type into the input field now needs to pass both of these validations in order for the field to be valid, exactly what we want.
+Whatever we type into the input field now needs to pass *both* of these validations for the field to be valid - exactly what we want!
 
 ### Displaying validation errors
 
-As you might have guessed, we can use `.valid` inside our template to check if a field control is valid or not and conditionally trigger HTML tags depending on the value. So let's explore that in more detail.
+As you might have guessed, we can inspect the  `.valid` property inside our template to check if a field control is valid or not, and conditionally trigger HTML tags depending on the value. Let's explore that in more detail.
 
 In AngularJS 1.x we had a helpful feature - `ngMessages` that we could use to more easily display helpful messages to the user and explain why their form is invalid. Let's see how we can easily recreate `ngMessages` in Angular 2.
 
-In the previous section I showed a little snippet that we can use in our HTML template to see output the validity of our email input field. Admittedly, that was quite a verbose way of doing it and if we want to keep our templates clean and easy to read then we better use this following approach.
+In the previous section I provided a little snippet that we can use in our HTML template to see output the validity of our email input field. Admittedly that was quite a verbose way of doing it and - if we want to keep our templates clean and easy to read - it would be far better use the following approach.
 
-What we will do is, inside our component class, we will define a property for our email control, that we can easily access inside our template.
+Inside our component class we will define a property for our email control, which we can easily access from inside our template.
 
 {% highlight javascript %}
 
@@ -255,6 +263,7 @@ What we will do is, inside our component class, we will define a property for ou
         email: ['', Validators.compose([Validators.required, this.checkIfA])]
     })
 
+    // This is our new property, which we will access from the template
     this.email = this.emailForm.controls['email'];
   }
 
@@ -262,7 +271,7 @@ What we will do is, inside our component class, we will define a property for ou
 
 {% endhighlight %}
 
-The idea here is that we write the same verbose way of accessing that control once, so that we can reference it easily in other places.
+The idea here is that we write the same verbose way of accessing that control only once, so that we can reference it easily in other places.
 
 **However**, once again, we are assigning a value to a property on our `EmailForm` class, that doesn't exist yet. Let's add this property at the top of our class definition.
 
@@ -295,7 +304,7 @@ Now we can access the control object for the email field inside our template mor
 
 It is a little easier to check the validity of our email field now. Let's get on to displaying error messages.
 
-The first step we can do is show a paragraph tag `<p>` with an error message saying that the email field is invalid.
+The first thing we'll do is add a paragraph tag `<p>` with an error message saying that the email field is invalid.
 
 {% highlight html %}
 
@@ -311,7 +320,7 @@ The first step we can do is show a paragraph tag `<p>` with an error message say
 
 {% endhighlight %}
 
-We are using a structure directive `ngIf` that is part of Angular to conditionally display that error message. However, even though it is better than nothing, that message is not really descriptive, and considering our tricky validation (first letter needs to be an `a`), which will put off any user from this form, we definitely need better error messages. So here's a better solution.
+We are using a structure directive `ngIf` (provided by Angular) to conditionally display the error message. However, even though it is better than showing nothing, the message by itself own is not really descriptive enough. Considering our tricky validation (where the first letter needs to be an `a`) we definitely need more descriptive error messages. So here's a better solution:
 
 {% highlight html %}
 
@@ -342,7 +351,7 @@ We used a `hasError` method on our email field control object to check if the em
 
 {% endhighlight %}
 
-One final enhancement I would like to add to this form is to not show the errors initially, but to only show them (if appropriate) after the user has interacted with the email field. This is a common practice and is considered a good user experience.
+One final enhancement I would like to add to this form is to not show the errors initially, but to only show them (if appropriate) once the user has interacted with the email field. This is a common practice and is considered a good user experience.
 
 With our current set up, it is very easy to add that feature in.
 
@@ -358,4 +367,4 @@ With our current set up, it is very easy to add that feature in.
 {{*}}
 {% endhighlight %}
 
-All we did is added an `&&` to our `ngIf` directive, which checks if the email field has been interacted with, or `touched`.
+All we need to do is added an `&&` to our `ngIf` directive, which checks if the email field has been interacted with, or `touched`.
