@@ -1,5 +1,4 @@
 ---
----
 layout: post
 title:  "Validation for Model-driven forms in Angular 2"
 date:   2016-03-17 22:17:00 +0000
@@ -238,7 +237,7 @@ Now that we have our custom validation function, let's apply that to our email c
 
 {% endhighlight %}
 
-Instead of passing just `Validators.required` inside our array for the email control (as the second element to our array), we are now passing the return value of a `Validators.compose()` function call, which takes an array of any validators we one to use. In this case, we want to use both the `Validators.required` built-in validator, as well as our custom `this.checkIfA` validator.
+Instead of passing just `Validators.required` inside our array for the email control (as the second element to our array), we are now passing the return value of a `Validators.compose()` function call, which takes an array of any validators we want to use. In this case, we want to use both the `Validators.required` built-in validator, as well as our custom `this.checkIfA` validator.
 
 Whatever we type into the input field now needs to pass *both* of these validations for the field to be valid - exactly what we want!
 
@@ -320,7 +319,7 @@ The first thing we'll do is add a paragraph tag `<p>` with an error message sayi
 
 {% endhighlight %}
 
-We are using a structure directive `ngIf` (provided by Angular) to conditionally display the error message. However, even though it is better than showing nothing, the message by itself own is not really descriptive enough. Considering our tricky validation (where the first letter needs to be an `a`) we definitely need more descriptive error messages. So here's a better solution:
+We are using a structural directive `ngIf` (provided by Angular) to conditionally display the error message. However, even though it is better than showing nothing, the message by itself own is not really descriptive enough. Considering our tricky validation (where the first letter needs to be an `a`) we definitely need more descriptive error messages. So here's a better solution:
 
 {% highlight html %}
 
