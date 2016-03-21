@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Validation for Model-driven forms in Angular 2"
+permalink: /validation-model-driven-forms-ng2/
 date:   2016-03-17 22:17:00 +0000
 ---
 As you might know, there are two prominent ways of creating forms in Angular 2: **Template-driven** forms and **Model-driven forms**. **Template-driven** forms definitely have a stronger correlation to how forms are created in AngularJS 1.x, in that they mostly rely on you declaring your form logic in the HTML template. **Model-driven** forms however, are created from a configuration that you specify in your Component class.
