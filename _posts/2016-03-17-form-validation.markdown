@@ -16,7 +16,7 @@ Firstly, let's create a simple component and its corresponding template.
 {% highlight javascript %}
 
   // email-form.component.ts
-  import { Component } from 'angular2/core';
+  import { Component } from '@angular/core';
 
   @Component({
     selector: 'email-form',
@@ -44,13 +44,13 @@ This creates a very basic form that doesn't do anything yet. So the next step is
 
 ### Enter the `FormBuilder`
 
-The `FormBuilder` is part of the `angular2/common` module that we will be using to create our Model-driven form.
+The `FormBuilder` is part of the `@angular/common` module that we will be using to create our Model-driven form.
 
 In order to use the `FormBuilder`, we need to import it into our component definition file first.
 
 {% highlight javascript %}
   // email-form.component.ts
-  import { FormBuilder } from 'angular2/common';
+  import { FormBuilder } from '@angular/common';
 {% endhighlight %}
 
 Next we need to actually inject the `FormBuilder` into our component. We do that as we would with any service - in our constructor.
@@ -149,12 +149,12 @@ Now it's time to get creative with our form and make it more useful. Our goal is
 
 We can use the usual standard HTML validators, like `required`, `minlength` etc. inside our HTML, but let's add validators to the form inside our form configuration object.
 
-We will want to use `Validators`, a class we need to import from `angular2/common` module.
+We will want to use `Validators`, a class we need to import from `@angular/common` module.
 
 {% highlight javascript %}
   // email-form.component.ts
 
-  import { FormBuilder, Validators } from 'angular2/common';
+  import { FormBuilder, Validators } from '@angular/common';
 
   ...
 {% endhighlight %}
