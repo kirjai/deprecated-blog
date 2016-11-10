@@ -13,7 +13,7 @@ However, things get interesting when the service under test has dependencies (in
 
 ## Isolated tests
 
-In short, test are considered isolated when a fresh instance of your service class is created before each test, like so:
+In short, tests are considered isolated when a fresh instance of your service class is created before each test, like so:
 
 {% highlight javascript %}
 
@@ -62,7 +62,7 @@ The simplest test we can write, if we are using the `TestBed` would look somethi
 
 {% highlight javascript %}
 
-  import { MyService } from './my.service;
+  import { MyService } from './my.service';
 
   describe('Service: My: TestBed', () => {
     let service: MyService;
