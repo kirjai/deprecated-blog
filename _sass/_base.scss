@@ -35,6 +35,20 @@ h2 {
   font-size: 18px;
 }
 
+h3 {
+  font-size: 30px;
+}
+
+code {
+  text-transform: none;
+}
+
+blockquote {
+  margin-left: 0;
+  padding-left: 20px;
+  border-left: 3px solid $accent;
+}
+
 p {
   font-family: $text-font;
   margin: 0;
