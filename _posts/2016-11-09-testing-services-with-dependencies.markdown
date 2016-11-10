@@ -194,7 +194,7 @@ execution of `doSomething`, resulting in the following full spec file:
 
 {% highlight javascript %}
 
-  import { MyService } from './my.service;
+  import { MyService } from './my.service';
   import { MyServiceDependency } from './my-service-dependency';
 
   class MyServiceDependencyStub {
