@@ -65,7 +65,7 @@ service into `AuthGuard`.
 
 ## Redirecting
 
-In case the user is not authenticated and therefore not allowed to view the `/restricted` route,
+In case the user is not authenticated and not allowed to view the `/restricted` route,
 we would like to navigate him somewhere else. We can manually invoke the `navigate()` method
 on the `Router`.
 
@@ -92,7 +92,7 @@ on the `Router`.
 
 {% endhighlight %}
 
-Now, in case an unauthenticated user tries to access the `/restricted` route, he will be redirected to
+Now, if an unauthenticated user tries to access the `/restricted` route, he will be redirected to
 `/unrestricted`.
 
 ## Dynamic redirection routes
