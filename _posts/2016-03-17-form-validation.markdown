@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Validation for Model-driven forms in Angular 2"
+title:  "Validation for reactive forms in Angular 2"
 permalink: /validation-model-driven-forms-ng2/
 date:   2016-09-30 12:00:00 +0000
 ---
