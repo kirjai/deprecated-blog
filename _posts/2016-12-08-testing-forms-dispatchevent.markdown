@@ -120,3 +120,4 @@ So as you can see, we can trigger any event listeners on our elements with `.dis
 
 > [Here](https://developer.mozilla.org/en-US/docs/Web/Events) is a list of all Javascript events. 
 
+> Code example available [here](https://github.com/kirjai/blog-code-snippets/tree/master/testing-form-inputs).
