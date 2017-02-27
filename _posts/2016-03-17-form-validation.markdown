@@ -1,12 +1,11 @@
 ---
 layout: post
-title:  "Validation for reactive forms in Angular 2"
-permalink: /validation-model-driven-forms-ng2/
+title:  "Validation for reactive forms in Angular"
+permalink: /validation-model-driven-forms-ng/
 date:   2016-09-30 12:00:00 +0000
 ---
-> *Updated on 2016-09-30 to work with **Angular 2 final** release.*
 
-As you might know, there are two prominent ways of creating forms in Angular 2: **Template-driven** forms and Model-driven or **Reactive forms**. **Template-driven** forms definitely have a stronger correlation to how forms are created in AngularJS 1.x, in that they mostly rely on you declaring your form logic in the HTML template. **Reactive** forms however, are created from a configuration that you specify in your Component class.
+As you might know, there are two prominent ways of creating forms in Angular: **Template-driven** forms and Model-driven or **Reactive forms**. **Template-driven** forms definitely have a stronger correlation to how forms are created in AngularJS 1.x, in that they mostly rely on you declaring your form logic in the HTML template. **Reactive** forms however, are created from a configuration that you specify in your Component class.
 
 In this post we will be going over the Reactive form definition, how to make use of validators as well as writing your own custom validators and providing users with good error messages upon validation.
 
@@ -240,7 +239,7 @@ Whatever we type into the input field now needs to pass *both* of these validati
 
 As you might have guessed, we can inspect the  `.valid` property inside our template to check if a field control is valid or not, and conditionally trigger HTML tags depending on the value. Let's explore that in more detail.
 
-In AngularJS 1.x we had a helpful feature - `ngMessages` that we could use to more easily display helpful messages to the user and explain why their form is invalid. Let's see how we can easily recreate `ngMessages` in Angular 2.
+In AngularJS 1.x we had a helpful feature - `ngMessages` that we could use to more easily display helpful messages to the user and explain why their form is invalid. Let's see how we can easily recreate `ngMessages` in Angular 2+.
 
 In the previous section I provided a little snippet that we can use in our HTML template to see output the validity of our email input field. Admittedly that was quite a verbose way of doing it and - if we want to keep our templates clean and easy to read - it would be far better use the following approach.
 
