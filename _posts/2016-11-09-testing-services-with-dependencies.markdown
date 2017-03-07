@@ -1,12 +1,12 @@
 ---
 layout: post
-title:  "Testing angular services with dependencies"
+title:  "Testing Angular 2+ services with dependencies"
 permalink: /testing-angular-services-with-dependencies/
 date:   2016-11-09 12:00:00 +0000
 ---
 
-Angular 2 services can be tested in a couple of different ways, two most
-prominent being isolated tests and using the [Angular `TestBed`](https://angular.io/docs/ts/latest/api/core/testing/index/TestBed-class.html).
+Angular 2+ services can be tested in a couple of different ways, two most
+prominent being isolated tests and using the [Angular 2+ `TestBed`](https://angular.io/docs/ts/latest/api/core/testing/index/TestBed-class.html).
 However, things get interesting when the service under test has dependencies (injected using Angular's dependency injection). 
 
 ### Isolated vs `TestBed` tests
@@ -41,7 +41,7 @@ Resulting in the following most basic test:
 
 {% endhighlight %}
 
-You can find more information on isolated service unit tests in the [official Angular testing guide](https://angular.io/docs/ts/latest/guide/testing.html#!#isolated-service-tests).
+You can find more information on isolated service unit tests in the [official Angular 2+ testing guide](https://angular.io/docs/ts/latest/guide/testing.html#!#isolated-service-tests).
 
 ## `TestBed` tests
 
@@ -56,7 +56,7 @@ When writing `TestBed` tests, you need to define / configure a testing module be
 {% endhighlight %}
 
 The object we pass into the `configureTestingModule` method follows the same structure as the `@NgModule` object
-that we use when defining Angular modules within our application.
+that we use when defining Angular 2+ modules within our application.
 
 The simplest test we can write, if we are using the `TestBed` would look something like this:
 

@@ -5,7 +5,7 @@ permalink: /testing-angular-forms-with-dispatchevent/
 date:   2016-12-08 12:00:00 +0000
 ---
 
-When testing your Angular applications, make sure you don't forget to test your forms as well. But obviously forms, especially template-driven forms (`ngModel`), are not something 
+When testing your Angular 2+ applications, make sure you don't forget to test your forms as well. But obviously forms, especially template-driven forms (`ngModel`), are not something 
 you would write unit tests for. Instead, you want to write [shallow component tests](https://angular.io/docs/ts/latest/guide/testing.html#!#shallow-component-test), where you get access
 to native DOM elements that make up your application. Users will interact with your forms by typing, focusing, clicking, etc. so you want to trigger all those events in your tests as well.
 

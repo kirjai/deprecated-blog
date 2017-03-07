@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Using If - Else syntax in Angular"
+title: "Using If - Else syntax in Angular 2+"
 permalink: /if-else-angular
 date: 2017-02-27 12:00:00 +0000
 ---

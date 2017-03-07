@@ -5,19 +5,7 @@ permalink: /ng2-component-testing-routerlink-routeroutlet/
 date:   2016-11-07 12:00:00 +0000
 ---
 
-<!--Those of us writing tests to go along with our awesome Angular 2 applications,
-were, most likely, extremely happy when the [official Angular testing documentation](https://angular.io/docs/ts/latest/guide/testing.html)
-has finally landed after much anticipation. The docs are excellent, extremely thorough and are a great read
-for everyone who is writing angular tests, I highly recommend setting some time aside and reading
-through them at some point. However, there is **a lot** of information on that page and it might
-be a little intimidating and I personally find that it might get a little hard trying to find
-exactly what you are looking for, especially when you are debugging the tests for your application.-->
-
-<!--Testing is a fairly complicated subject and there are a lot of ways you can test your app depending on
-how it is written, and so the official testing guide is trying to cover a lot of ground and explain a lot of
-different testing scenarios, which some times may lead to overcomplication.-->
-
-[Official angular testing documentation](https://angular.io/docs/ts/latest/guide/testing.html) is a great place to start when it comes to testing your application,
+[Official angular 2+ testing documentation](https://angular.io/docs/ts/latest/guide/testing.html) is a great place to start when it comes to testing your application,
 and while the docs are great and thorough, it might get a little hard trying to quickly find the info that you are
 looking for. Especially when things go wrong and you are in the middle of debugging your tests.
 

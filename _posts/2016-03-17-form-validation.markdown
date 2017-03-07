@@ -1,11 +1,11 @@
 ---
 layout: post
-title:  "Validation for reactive forms in Angular"
-permalink: /validation-model-driven-forms-ng/
+title:  "Validation for reactive forms in Angular 2+"
+permalink: /validation-model-driven-forms-ng2/
 date:   2016-09-30 12:00:00 +0000
 ---
 
-As you might know, there are two prominent ways of creating forms in Angular: **Template-driven** forms and Model-driven or **Reactive forms**. **Template-driven** forms definitely have a stronger correlation to how forms are created in AngularJS 1.x, in that they mostly rely on you declaring your form logic in the HTML template. **Reactive** forms however, are created from a configuration that you specify in your Component class.
+As you might know, there are two prominent ways of creating forms in Angular 2+: **Template-driven** forms and Model-driven or **Reactive forms**. **Template-driven** forms definitely have a stronger correlation to how forms are created in AngularJS 1.x, in that they mostly rely on you declaring your form logic in the HTML template. **Reactive** forms however, are created from a configuration that you specify in your Component class.
 
 In this post we will be going over the Reactive form definition, how to make use of validators as well as writing your own custom validators and providing users with good error messages upon validation.
 
@@ -132,7 +132,7 @@ That's great and all, but how can we map this to our HTML form in the template? 
 
 We have added a new directive `formGroup` to our `form` element, and an `formControlName` to the email input field. The value we give to the `formGroup` corresponds to the name of our form control group, created by calling `builder.group`. And the value we give to `formControlName` is a `FormControl` instance that we have passed as part of our form configuration object.
 
-Now the form we specified in the component class should be mapped to the HTML form, but how can we make sure that it actually is? We can display the value of the whole form control group in our template using the usual Angular syntax, below our form.
+Now the form we specified in the component class should be mapped to the HTML form, but how can we make sure that it actually is? We can display the value of the whole form control group in our template using the usual Angular 2+ syntax, below our form.
 
 {% highlight html %}
 
@@ -313,7 +313,7 @@ The first thing we'll do is add a paragraph tag `<p>` with an error message sayi
 
 {% endhighlight %}
 
-We are using a structural directive `ngIf` (provided by Angular) to conditionally display the error message. However, even though it is better than showing nothing, the message by itself is not really descriptive enough. Considering our tricky validation (where the first letter needs to be an `a`) we definitely need more descriptive error messages. So here's a better solution:
+We are using a structural directive `ngIf` (provided by Angular 2+) to conditionally display the error message. However, even though it is better than showing nothing, the message by itself is not really descriptive enough. Considering our tricky validation (where the first letter needs to be an `a`) we definitely need more descriptive error messages. So here's a better solution:
 
 {% highlight html %}
 

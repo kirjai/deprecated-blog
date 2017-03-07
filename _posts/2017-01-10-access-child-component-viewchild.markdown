@@ -5,7 +5,7 @@ permalink: /accessing-child-component-with-viewchild/
 date:   2017-01-10 12:00:00 +0000
 ---
 
-Most communication between parent and child components in Angular happens with `Input` and `Output` bindings. However, in more complex cases you might want a direct access to a child component's class instance.
+Most communication between parent and child components in Angular 2+ happens with `Input` and `Output` bindings. However, in more complex cases you might want a direct access to a child component's class instance.
 We can achieve exactly that using a powerful `ViewChild` decorator.
 
 This is especially useful if you have reusable self contained components, like a modal component. Realistically, the parent component will decide when to display the modal.

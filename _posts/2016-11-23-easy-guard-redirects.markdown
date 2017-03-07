@@ -1,11 +1,11 @@
 ---
 layout: post
-title:  "Dynamic guard redirects with route data in Angular"
+title:  "Dynamic guard redirects with route data in Angular 2+"
 permalink: /dynamic-guard-redirects-angular/
 date:   2016-11-23 12:00:00 +0000
 ---
 
-If you are using the Angular router within your application, you probably encountered route guards.
+If you are using the Angular 2+ router within your application, you probably encountered route guards.
 For those who don't know, guards allow you to restrict specific routes based on certain criteria.
 
 In reality, guards are nothing but services that implement a `CanActivate` interface. Combine that with
@@ -41,7 +41,7 @@ We can now attach this `AuthGuard` to any of our routes.
 
 {% endhighlight %}
 
-With this setup, whenever a user will try navigating to the `/restricted` route, Angular Router will
+With this setup, whenever a user will try navigating to the `/restricted` route, Angular 2+ Router will
 invoke the `canActivate()` method on the `AuthGuard` and depending on whether it returns `true` or
 `false`, user will either be allowed through to the route or not.
 
