@@ -9,34 +9,35 @@ As you might know, there are two prominent ways of creating forms in Angular 2+:
 
 In this post we will be going over the Reactive form definition, how to make use of validators as well as writing your own custom validators and providing users with good error messages upon validation.
 
-
 ### Set up
 
 Firstly, let's create a simple component and its corresponding template.
 
 {% highlight javascript %}
 
-  // email-form.component.ts
-  import { Component } from '@angular/core';
+// email-form.component.ts
+import { Component } from '@angular/core';
 
-  @Component({
-    selector: 'app-email-form',
-    templateUrl: 'email-form.component.html'
-  })
+@Component({
+selector: 'app-email-form',
+templateUrl: 'email-form.component.html'
+})
 
-  export class EmailForm { }
+export class EmailForm { }
 
 {% endhighlight %}
 
 {% highlight html %}
 
   <!-- email-form.component.html -->
+
   <form>
     <h2>Email Form</h2>
     <label for="email">Email:</label>
     <input id="email" type="text">
 
     <button type="submit">Submit</button>
+
   </form>
 
 {% endhighlight %}
@@ -50,17 +51,17 @@ The `FormBuilder` is part of the `@angular/forms` module that we will be using t
 In order to use the `FormBuilder`, we need to import it's type into our component first.
 
 {% highlight javascript %}
-  // email-form.component.ts
-  import { FormBuilder } from '@angular/forms';
+// email-form.component.ts
+import { FormBuilder } from '@angular/forms';
 {% endhighlight %}
 
 Next we need to actually inject the `FormBuilder` into our component. We do that as we would with any service - in our constructor.
 
 {% highlight javascript %}
-  // email-form.component.ts
-  export class EmailForm {
-    constructor (private builder: FormBuilder) { }
-  }
+// email-form.component.ts
+export class EmailForm {
+constructor (private builder: FormBuilder) { }
+}
 
 {% endhighlight %}
 
@@ -68,47 +69,47 @@ Now we can use the `FormBuilder` by referencing it by its the private variable n
 
 {% highlight javascript %}
 
-  // email-form.component.ts
-  ...
+// email-form.component.ts
+...
 
-  constructor (private builder: FormBuilder) {
-    this.emailForm = this.builder.group({})
-  }
+constructor (private builder: FormBuilder) {
+this.emailForm = this.builder.group({})
+}
 
 {% endhighlight %}
 
-We've created a new property on our class - `emailForm` and assigned a new `group` to it,  created by the builder. `FormBuilder` helps us by creating a `FormGroup` object that will hold our `FormControl`s (more on that later). We will specify individual `FormControl`s that correspond to our input fields by passing them into the this new `FormGroup` we just created.
+We've created a new property on our class - `emailForm` and assigned a new `group` to it, created by the builder. `FormBuilder` helps us by creating a `FormGroup` object that will hold our `FormControl`s (more on that later). We will specify individual `FormControl`s that correspond to our input fields by passing them into the this new `FormGroup` we just created.
 
 **However**, we assigned the group to a property we haven't defined yet, so at the top of our `EmailForm` class we need to define the new `emailForm` property. One thing to note is that the name of the property `emailForm` can be anything, as with any variable, it is not mapped to anything yet at this point.
 
 {% highlight javascript %}
 
-  // email-form.component.ts
-  export class EmailForm {
-    emailForm: FormGroup;
+// email-form.component.ts
+export class EmailForm {
+emailForm: FormGroup;
 
     ...
-  }
+
+}
 
 {% endhighlight %}
 
-
 ### `FormControl` and `formControlName`
 
-`FormControl` is an Angular class, and we can map instances of this class to form fields. Without `FormControl`s, we can't have validation, or essentially provide *any* communication between the HTML form and the component class (unless we use `ngModel`, of course).
+`FormControl` is an Angular class, and we can map instances of this class to form fields. Without `FormControl`s, we can't have validation, or essentially provide _any_ communication between the HTML form and the component class (unless we use `ngModel`, of course).
 
 So since with reactive forms we specify the form configuration upfront, we need to specify controls that the form will be mapped to. We need to do that inside the form configuration object (our `emailForm` property) which we are passing to the `this.builder.group()` function call inside our constructor.
 
 {% highlight javascript %}
 
-  // email-form.component.ts
-  ...
+// email-form.component.ts
+...
 
-  constructor (private builder: FormBuilder) {
-    this.emailForm = this.builder.group({
-        email: ['']
-    })
-  }
+constructor (private builder: FormBuilder) {
+this.emailForm = this.builder.group({
+email: ['']
+})
+}
 
 {% endhighlight %}
 
@@ -119,6 +120,7 @@ That's great and all, but how can we map this to our HTML form in the template? 
 {% highlight html %}
 
   <!-- email-form.component.html -->
+
   <form [formGroup]="emailForm">
     <h2>Email Form</h2>
     <label for="email">Email:</label>
@@ -126,6 +128,7 @@ That's great and all, but how can we map this to our HTML form in the template? 
       formControlName="email">
 
     <button type="submit">Submit</button>
+
   </form>
 
 {% endhighlight %}
@@ -137,7 +140,9 @@ Now the form we specified in the component class should be mapped to the HTML fo
 {% highlight html %}
 
   <!-- email-form.component.html -->
-  ...
+
+...
+
   <pre> {% raw %}{{ emailForm.value | json }} {% endraw %}</pre>
 
 {% endhighlight %}
@@ -146,31 +151,31 @@ Try typing into the text field inside your form and see the value of `email` cha
 
 ### Validation
 
-Now it's time to get creative with our form and make it more useful. Our goal is to make sure that the user has typed *something* into the input field before submitting the form, i.e. making the field required.
+Now it's time to get creative with our form and make it more useful. Our goal is to make sure that the user has typed _something_ into the input field before submitting the form, i.e. making the field required.
 
 We can use the usual standard HTML validators, like `required`, `minlength` etc. inside our HTML, but let's add validators to the form inside our form configuration object.
 
 We will want to use `Validators`, a class we need to import from `@angular/forms` module.
 
 {% highlight javascript %}
-  // email-form.component.ts
+// email-form.component.ts
 
-  import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
-  ...
+...
 {% endhighlight %}
 
-In order to make the email input field required, we need to add the 'required' validator to where we are defining a new `FormControl` - `email`.  The validator we want applied to a control is provided as the second element inside our Control array value:
+In order to make the email input field required, we need to add the 'required' validator to where we are defining a new `FormControl` - `email`. The validator we want applied to a control is provided as the second element inside our Control array value:
 
 {% highlight javascript %}
 
-  // email-form.component.ts
-  ...
-  constructor(private builder: FormBuilder){
-    this.emailForm = this.builder.group({
-        email: ['', Validators.required]
-    })
-  }
+// email-form.component.ts
+...
+constructor(private builder: FormBuilder){
+this.emailForm = this.builder.group({
+email: ['', Validators.required]
+})
+}
 
 {% endhighlight %}
 
@@ -183,6 +188,7 @@ We don't need to modify anything inside our template in order to make the valida
 {% highlight html %}
 
   <!-- email-form.component.html -->
+
   <pre>{% raw %} {{ emailForm.controls['email'].valid }} {% endraw %}</pre>
 
 {% endhighlight %}
@@ -193,24 +199,24 @@ This also demonstrates one way we can access specific `Control` objects that are
 
 <!-- On top of using Angular's built in validators, you are able to write your own custom validators as well. So for our example, let's write a simple  validator that checks that the first letter typed into the input field is the letter `a`. -->
 
-In a real world use case, you would probably want to validate an email input field with a regular expression or min-length, etc. You could simply use the existing Angular validators for that, however we want to explore how to write *our own* validators
+In a real world use case, you would probably want to validate an email input field with a regular expression or min-length, etc. You could simply use the existing Angular validators for that, however we want to explore how to write _our own_ validators
 
 A custom validator is essentially just a function that returns `null` if you want the input value to pass validation, or anything else if you want the validation to fail. Let's declare that function next, outside of our constructor.
 
 {% highlight javascript %}
 
-  // email-form.component.ts
-  ...
+// email-form.component.ts
+...
 
-  checkIfA(fieldControl: FormControl){
-    return fieldControl.value[0] === 'a' ? null : { notA: true };
-  }
+checkIfA(fieldControl: FormControl){
+return fieldControl.value[0] === 'a' ? null : { notA: true };
+}
 
 {% endhighlight %}
 
 As you can see, the validator function receives an instance of a form control that it going to apply validation to. We can use that instance to access the current value of the control field.
 
-In our example we inspect the current value of the control field and verify it's first letter. If the first letter is `a` then we return `null`, indicating that it passed validation.  However if the first letter is *not* an `a` then we return an error object, which indicates that the validation failed.
+In our example we inspect the current value of the control field and verify it's first letter. If the first letter is `a` then we return `null`, indicating that it passed validation. However if the first letter is _not_ an `a` then we return an error object, which indicates that the validation failed.
 
 The reason for returning an error object for an invalid field is so that we can provide the user with descriptive feedback as to why validation failed. We will explore just how to do that in the next section.
 
@@ -218,26 +224,26 @@ Now that we have our custom validation function, let's apply that to our email c
 
 {% highlight javascript %}
 
-  // email-form.component.ts
-  ...
+// email-form.component.ts
+...
 
-  constructor(private builder: FormBuilder){
-    this.emailForm = this.builder.group({
-        email: ['', Validators.compose([Validators.required, this.checkIfA])]
-    })
-  }
+constructor(private builder: FormBuilder){
+this.emailForm = this.builder.group({
+email: ['', Validators.compose([Validators.required, this.checkIfA])]
+})
+}
 
-  ...
+...
 
 {% endhighlight %}
 
 Instead of passing just `Validators.required` inside our array for the email control (as the second element to our array), we are now passing the return value of a `Validators.compose()` function, which takes an array of any validators we want to use. In this case, we want to use both the `Validators.required` built-in validator, as well as our custom `this.checkIfA` validator.
 
-Whatever we type into the input field now needs to pass *both* of these validations for the field to be valid - exactly what we want!
+Whatever we type into the input field now needs to pass _both_ of these validations for the field to be valid - exactly what we want!
 
 ### Displaying validation errors
 
-As you might have guessed, we can inspect the  `.valid` property inside our template to check if a field control is valid or not, and conditionally trigger HTML tags depending on the value. Let's explore that in more detail.
+As you might have guessed, we can inspect the `.valid` property inside our template to check if a field control is valid or not, and conditionally trigger HTML tags depending on the value. Let's explore that in more detail.
 
 In AngularJS 1.x we had a helpful feature - `ngMessages` that we could use to more easily display helpful messages to the user and explain why their form is invalid. Let's see how we can easily recreate `ngMessages` in Angular 2+.
 
@@ -249,18 +255,19 @@ Inside our component class we will define a property for our email control, whic
 
 // email-form.component.ts
 
-  ...
+...
 
-  constructor(private builder: FormBuilder){
-    this.emailForm = this.builder.group({
-        email: ['', Validators.compose([Validators.required, this.checkIfA])]
-    })
+constructor(private builder: FormBuilder){
+this.emailForm = this.builder.group({
+email: ['', Validators.compose([Validators.required, this.checkIfA])]
+})
 
     // This is our new property, which we will access from the template
     this.email = this.emailForm.controls['email'];
-  }
 
-  ...
+}
+
+...
 
 {% endhighlight %}
 
@@ -269,13 +276,13 @@ The idea here is that we write the same verbose way of accessing that control on
 **However**, once again, we are assigning a value to a property on our `EmailForm` class, that doesn't exist yet. Let's add this property at the top of our class definition.
 
 {% highlight javascript %}
-  // email-form.component.ts
+// email-form.component.ts
 
-  export class EmailForm {
-    emailForm: ControlGroup;
-    email: AbstractControl;
-    ...
-  }
+export class EmailForm {
+emailForm: ControlGroup;
+email: AbstractControl;
+...
+}
 
 {% endhighlight %}
 
@@ -288,9 +295,11 @@ Now we can access the control object for the email field inside our template mor
   <!-- email-form.component.html -->
 
   <!-- before -->
+
   <pre>{% raw %} {{ emailForm.controls['email'].valid }} {% endraw %}</pre>
 
   <!-- after -->
+
   <pre>{% raw %} {{ email.valid }} {% endraw %}</pre>
 
 {% endhighlight %}
@@ -302,14 +311,15 @@ The first thing we'll do is add a paragraph tag `<p>` with an error message sayi
 {% highlight html %}
 
   <!-- email-form.component.html -->
-  ...
-    <label for="email">Email:</label>
-    <input id="email" type="text"
+
+...
+<label for="email">Email:</label>
+<input id="email" type="text"
       formControlName="email">
 
       <p *ngIf="!email.valid">Email is invalid</p>
-      {{*}}
-  ...
+
+...
 
 {% endhighlight %}
 
@@ -318,17 +328,18 @@ We are using a structural directive `ngIf` (provided by Angular 2+) to condition
 {% highlight html %}
 
   <!-- email-form.component.html -->
-  ...
-    <label for="email">Email:</label>
-    <input id="email" type="text"
+
+...
+<label for="email">Email:</label>
+<input id="email" type="text"
       formControlName="email">
 
       <div *ngIf="!email.valid">
         <p *ngIf="email.hasError('required')">Email is required</p>
         <p *ngIf="email.hasError('notA')">First letter of the email needs to be an a</p>
       </div>
-      {{*}}
-  ...
+
+...
 
 {% endhighlight %}
 
@@ -338,9 +349,9 @@ We used a `hasError` method on our email field control object to check if the em
 
 {% highlight javascript %}
 
-  // email-form.component.ts
+// email-form.component.ts
 
-  return fieldControl.value[0] === 'a' ? null : { notA: true }; // <-
+return fieldControl.value[0] === 'a' ? null : { notA: true }; // <-
 
 {% endhighlight %}
 
@@ -351,13 +362,14 @@ With our current set up, it is very easy to add that feature in.
 {% highlight html %}
 
   <!-- email-form.component.html -->
-  ...
+
+...
+
   <div *ngIf="!email.valid && email.dirty">
     <p *ngIf="email.hasError('required')">Email is required</p>
     <p *ngIf="email.hasError('notA')">First letter of the email needs to be an a</p>
   </div>
   ...
-{{*}}
 {% endhighlight %}
 
 All we need to do is added an `&&` to our `ngIf` directive, which checks if the email field has been interacted with, or `dirty`.
